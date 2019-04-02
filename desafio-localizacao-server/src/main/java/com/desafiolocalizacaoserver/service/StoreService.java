@@ -23,4 +23,9 @@ public class StoreService {
 		storeRepository.saveAll(entities);
 	}
 
+	public Iterable<Store> findAll() {
+		logger.info("Buscando todas as lojas.");
+		return storeRepository.findAll();
+	}
+
 }

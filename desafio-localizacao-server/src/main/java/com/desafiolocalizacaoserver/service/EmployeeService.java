@@ -23,4 +23,9 @@ public class EmployeeService {
 		employeeRepository.saveAll(entities);
 	}
 
+	public Iterable<Employee> findAll() {
+		logger.info("Buscando todas as lojas.");
+		return employeeRepository.findAll();
+	}
+
 }
