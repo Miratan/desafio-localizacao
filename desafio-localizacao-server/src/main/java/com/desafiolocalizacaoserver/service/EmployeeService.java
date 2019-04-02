@@ -1,6 +1,8 @@
 package com.desafiolocalizacaoserver.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +26,14 @@ public class EmployeeService {
 	}
 
 	public Iterable<Employee> findAll() {
-		logger.info("Buscando todas as lojas.");
 		return employeeRepository.findAll();
+	}
+
+	public Set<Employee> employeesSet() {
+		Iterable<Employee> employees = findAll();
+		Set<Employee> employeesSet = new HashSet<>();
+		employees.forEach(employeesSet::add);
+		return employeesSet;
 	}
 
 }

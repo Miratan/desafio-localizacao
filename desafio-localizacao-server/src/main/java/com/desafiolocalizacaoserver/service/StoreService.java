@@ -1,6 +1,8 @@
 package com.desafiolocalizacaoserver.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +26,14 @@ public class StoreService {
 	}
 
 	public Iterable<Store> findAll() {
-		logger.info("Buscando todas as lojas.");
 		return storeRepository.findAll();
+	}
+
+	public Set<Store> storesSet() {
+		Iterable<Store> stores = findAll();
+		Set<Store> storesSet = new HashSet<>();
+		stores.forEach(storesSet::add);
+		return storesSet;
 	}
 
 }
