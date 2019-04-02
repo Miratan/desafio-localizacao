@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import TopMenu from './TopMenu';
 import SideMenu from './SideMenu';
-import Dashboard from '../containers/Dashboard';
+import Dashboard from '../containers/Dashboard/Dashboard';
 
 class App extends Component {
 
