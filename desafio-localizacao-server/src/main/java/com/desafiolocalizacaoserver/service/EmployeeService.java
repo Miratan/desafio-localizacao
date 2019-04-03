@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.desafiolocalizacaoserver.model.Employee;
+import com.desafiolocalizacaoserver.model.dto.EmployeeStoreDTO;
 import com.desafiolocalizacaoserver.repository.EmployeeRepository;
 
 @Service
@@ -19,6 +20,9 @@ public class EmployeeService {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
+
+	@Autowired
+	private RouteService routeService;
 
 	public void initialStore(List<Employee> entities) {
 		logger.info("Gravando dados do arquivo funcionarios.csv no banco.");
@@ -34,6 +38,18 @@ public class EmployeeService {
 		Set<Employee> employeesSet = new HashSet<>();
 		employees.forEach(employeesSet::add);
 		return employeesSet;
+	}
+
+	public EmployeeStoreDTO findStoresByEmployeeId(Long employeeId) throws Exception {
+		List<EmployeeStoreDTO> routesByProximity = routeService.routesByBiggerProximityGroupedByEmployee();
+
+		for (EmployeeStoreDTO employeeStoreDTO : routesByProximity) {
+			if (employeeStoreDTO.getEmployee().getId() == employeeId) {
+				return employeeStoreDTO;
+			}
+		}
+
+		throw new Exception("Representante não encontrado.");
 	}
 
 }

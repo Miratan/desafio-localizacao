@@ -26,13 +26,13 @@ TODO
 * Serviço para listar representantes;
 * Serviço para listar lojas;
 * Serviço para listar representantes e lojas próximas (máximo de 2km);
+* Criação do projeto frontend;
+* Integrar com maps, mostrando representante e lojas próximas;
 ```
 
 ## Backlog
 
 ```
-* Criação do projeto frontend;
-* Integrar com maps, mostrando representante e lojas próximas;
 * Considerar quantidade de lojas quando houver mais de um representante abaixo da quilometragem configurada;
 * Permitir alteração da configuração de próximidade (não deixar fixo 2km);
 * Serviço para listar representantes paginados;

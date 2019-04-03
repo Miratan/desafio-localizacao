@@ -23,3 +23,7 @@ code {
   text-align: 'center';
   padding-bottom: 20px;
 }
+
+.link-button {
+  text-decoration: none;
+}

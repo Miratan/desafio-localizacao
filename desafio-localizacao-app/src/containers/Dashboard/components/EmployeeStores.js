@@ -10,6 +10,8 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 class EmployeeStores extends Component {
 
@@ -37,6 +39,12 @@ class EmployeeStores extends Component {
                         </Typography>
                     </CardContent>
                     <CardActions className={classes.actions} disableActionSpacing>
+                        <Link to={`/employees/${ employee.id }/stores`}
+                            className={classnames('link-button', classes.linkButton)}>
+                            <Button size="small" color="primary" variant="outlined">
+                                Ver mapa
+                            </Button>
+                        </Link>
                         <IconButton
                             style={{float: 'right'}}
                             className={classnames(classes.expand, {
@@ -77,6 +85,9 @@ const styles = () => ({
     expandOpen: {
         transform: 'rotate(180deg)',
     },
+    linkButton: {
+        paddingLeft: '10px',
+    }
 }); 
 
 EmployeeStores = withStyles(styles)(EmployeeStores);

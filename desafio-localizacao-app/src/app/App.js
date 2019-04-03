@@ -6,6 +6,7 @@ import SideMenu from './SideMenu';
 import Dashboard from '../containers/Dashboard/Dashboard';
 import Employee from '../containers/Employee/Employee';
 import Store from '../containers/Store/Store';
+import MapEmployeeStore from '../containers/MapEmployeeStore/MapEmployeeStore';
 
 class App extends Component {
 
@@ -43,6 +44,7 @@ class App extends Component {
               <Route path="/" exact={true} component={Dashboard} />
               <Route path="/employees" exact={true} component={Employee} />
               <Route path="/stores" exact={true} component={Store} />
+              <Route path="/employees/:id/stores" exact={true} component={MapEmployeeStore} />
               <Route path="*" component={Dashboard} />
             </Switch>
           </BrowserRouter>

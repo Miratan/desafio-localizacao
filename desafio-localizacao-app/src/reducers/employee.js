@@ -2,6 +2,9 @@ import {
     LIST_EMPLOYEE,
     LIST_EMPLOYEE_SUCCESS,
     LIST_EMPLOYEE_ERROR,
+    EMPLOYEE_MAP,
+    EMPLOYEE_MAP_SUCCESS,
+    EMPLOYEE_MAP_ERROR,
 } from '../constants';
 
 const initialState = {
@@ -29,7 +32,26 @@ export default function homeReducer(state = initialState, action) {
                 ...state,
                 loading: false,
                 erro: true,
-                data: [],                
+                data: [],
+            }
+        case EMPLOYEE_MAP:
+            return {
+                ...state,
+                loading: true,
+                erro: null,
+            }
+        case EMPLOYEE_MAP_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                data: action.payload.data,
+            }
+        case EMPLOYEE_MAP_ERROR:
+            return {
+                ...state,
+                loading: false,
+                erro: true,
+                data: [],
             }
         default:
             return state;
