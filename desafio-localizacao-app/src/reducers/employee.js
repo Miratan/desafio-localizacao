@@ -9,6 +9,7 @@ import {
 
 const initialState = {
     data: [],
+    dataMap: [],
     loading: true,
     erro: false,
 };
@@ -44,14 +45,14 @@ export default function homeReducer(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                data: action.payload.data,
+                dataMap: action.payload.data,
             }
         case EMPLOYEE_MAP_ERROR:
             return {
                 ...state,
                 loading: false,
                 erro: true,
-                data: [],
+                dataMap: [],
             }
         default:
             return state;

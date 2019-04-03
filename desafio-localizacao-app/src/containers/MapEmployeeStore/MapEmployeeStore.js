@@ -81,7 +81,7 @@ class MapEmployeeStore extends Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.employee.data,
+        data: state.employee.dataMap,
         loading: state.employee.loading,
         erro: state.employee.erro,
     }

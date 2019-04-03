@@ -14,9 +14,9 @@ class SideMenu extends Component {
     render() {
         const { open, classes } = this.props;
         const menuOptions = [
-            { url: 'home', label: 'Dashboard', icon: 'dashboard' },
-            { url: 'employees', label: 'Representantes', icon: 'people' },
-            { url: 'stores', label: 'Lojas', icon: 'store_mall_directory' }
+            { url: '/home', label: 'Dashboard', icon: 'dashboard' },
+            { url: '/employees', label: 'Representantes', icon: 'people' },
+            { url: '/stores', label: 'Lojas', icon: 'store_mall_directory' }
         ];
 
         return (
