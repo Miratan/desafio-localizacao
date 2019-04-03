@@ -4,6 +4,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import TopMenu from './TopMenu';
 import SideMenu from './SideMenu';
 import Dashboard from '../containers/Dashboard/Dashboard';
+import Employee from '../containers/Employee/Employee';
+import Store from '../containers/Store/Store';
 
 class App extends Component {
 
@@ -39,6 +41,8 @@ class App extends Component {
             <SideMenu open={open} />
             <Switch>
               <Route path="/" exact={true} component={Dashboard} />
+              <Route path="/employees" exact={true} component={Employee} />
+              <Route path="/stores" exact={true} component={Store} />
               <Route path="*" component={Dashboard} />
             </Switch>
           </BrowserRouter>
