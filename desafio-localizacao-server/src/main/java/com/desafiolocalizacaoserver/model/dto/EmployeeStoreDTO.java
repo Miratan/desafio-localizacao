@@ -20,6 +20,11 @@ public class EmployeeStoreDTO implements Serializable, Comparable<EmployeeStoreD
 		this.employee = employee;
 	}
 
+	public EmployeeStoreDTO(Employee employee, List<Store> stores) {
+		this.employee = employee;
+		this.stores = stores;
+	}
+
 	public Employee getEmployee() {
 		return employee;
 	}

@@ -7,8 +7,13 @@ import { list, listData } from '../../actions/dashboard';
 import EmployeeStores from './components/EmployeeStores';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
+import GroupTypeFilter from './components/GroupTypeFilter';
 
 class Dashboard extends Component {
+
+    state = {
+        group: 'PROXIMITY',
+    }
 
     componentDidMount() {
         this.props.dispatch(listData());
@@ -16,6 +21,10 @@ class Dashboard extends Component {
 
     componentWillUnmount() {
         this.props.dispatch(list());
+    }
+
+    filter = (payload) => {
+        this.props.dispatch(listData(payload));
     }
 
     render () {
@@ -30,6 +39,8 @@ class Dashboard extends Component {
                 <Typography variant='h4' className='main-title'>
                     Dashboard
                 </Typography>
+
+                <GroupTypeFilter filter={this.filter} group={this.state.group} />
 
                 <Grid container spacing={24}>
                     {data && data.map(element => (

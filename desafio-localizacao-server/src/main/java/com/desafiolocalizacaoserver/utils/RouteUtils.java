@@ -3,6 +3,7 @@ package com.desafiolocalizacaoserver.utils;
 public final class RouteUtils {
 
 	private static final int EARTH_RADIUS = 6371;
+	public static final Double MAX_DISTANCE_CONSIDERED = 40D;
 
 	public static double distance(double startLat, double startLong, double endLat, double endLong) {
 

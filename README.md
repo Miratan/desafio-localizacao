@@ -28,13 +28,15 @@ TODO
 * Serviço para listar representantes e lojas próximas (máximo de 2km);
 * Criação do projeto frontend;
 * Integrar com maps, mostrando representante e lojas próximas;
+* Representante com menor quantidade de lojas é selecionado quando loja pode visitada por mais de um.
 ```
 
 ## Backlog
 
 ```
-* Considerar quantidade de lojas quando houver mais de um representante abaixo da quilometragem configurada;
-* Permitir alteração da configuração de próximidade (não deixar fixo 2km);
+* Mudar comparação para verificar por menor número de lojas visitadas e depois por proximidade. Atualmente verifica o menor número de lojas e pega por ordem alfabética.
+* Adicionar filtro para modo de ordenação (Pŕoximo / Distribuído);
+* Permitir alteração da configuração de proximidade (não deixar fixo 2km);
 * Serviço para listar representantes paginados;
 * Serviço para listar lojas paginadas;
 * Adição, edição e exclusão de representantes;

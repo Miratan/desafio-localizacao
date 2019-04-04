@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.desafiolocalizacaoserver.model.Distance;
 import com.desafiolocalizacaoserver.model.Store;
 import com.desafiolocalizacaoserver.model.dto.EmployeeStoreDTO;
+import com.desafiolocalizacaoserver.model.dto.StoreEmployeeDTO;
 import com.desafiolocalizacaoserver.service.RouteService;
 
 @RestController
@@ -36,6 +37,16 @@ public class RoutesController {
     @RequestMapping(path = "/bigger-proximity-grouped-by-employee", method = RequestMethod.GET)
     public List<EmployeeStoreDTO> routesByBiggerProximityGroupedByEmployee(){
         return routeService.routesByBiggerProximityGroupedByEmployee();
+    }
+
+    @RequestMapping(path = "/distributed", method = RequestMethod.GET)
+    public List<StoreEmployeeDTO> routesDistributed() {
+    	return routeService.routesDistributed();
+    }
+
+    @RequestMapping(path = "/distributed-grouped-by-employee", method = RequestMethod.GET)
+    public List<EmployeeStoreDTO> routesDistributedGroupedByEmployee() {
+    	return routeService.routesDistributedGroupedByEmployee();
     }
 
 }

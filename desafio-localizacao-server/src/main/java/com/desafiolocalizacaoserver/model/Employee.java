@@ -17,11 +17,10 @@ public class Employee implements Serializable, Comparable<Employee> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	private String name;
-	private double latitude;
-	private double longitude;
+	protected Long id;
+	protected String name;
+	protected double latitude;
+	protected double longitude;
 
 	public Long getId() {
 		return id;

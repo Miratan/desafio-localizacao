@@ -1,12 +1,14 @@
 package com.desafiolocalizacaoserver.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -18,7 +20,9 @@ import org.springframework.stereotype.Service;
 import com.desafiolocalizacaoserver.model.Distance;
 import com.desafiolocalizacaoserver.model.Employee;
 import com.desafiolocalizacaoserver.model.Store;
+import com.desafiolocalizacaoserver.model.dto.EmployeeByStoreDistanceDTO;
 import com.desafiolocalizacaoserver.model.dto.EmployeeStoreDTO;
+import com.desafiolocalizacaoserver.model.dto.StoreEmployeeDTO;
 import com.desafiolocalizacaoserver.utils.RouteUtils;
 
 @Service
@@ -44,9 +48,10 @@ public class RouteService {
 
 		for (Employee employee : employees) {
 			for (Store store : stores) {
-				Double distance = RouteUtils.distance(employee.getLatitude(), employee.getLongitude(), store.getLatitude(), store.getLongitude());
+				Double distance = RouteUtils.distance(employee.getLatitude(), employee.getLongitude(),
+						store.getLatitude(), store.getLongitude());
 				// Ignore distance when greater than 2 km
-				if (distance > 2D) {
+				if (distance > RouteUtils.MAX_DISTANCE_CONSIDERED) {
 					continue;
 				}
 				distances.add(new Distance(distance, employee, store));
@@ -77,7 +82,7 @@ public class RouteService {
 
 	public List<EmployeeStoreDTO> routesByBiggerProximityGroupedByEmployee() {
 		Map<Employee, List<Store>> map = new TreeMap<Employee, List<Store>>();
-		
+
 		Map<Store, Distance> routesByBiggerProximity = routesByBiggerProximity();
 		Set<Entry<Store, Distance>> entrySet = routesByBiggerProximity.entrySet();
 
@@ -89,7 +94,7 @@ public class RouteService {
 				stores = new ArrayList<Store>();
 				stores.add(entry.getKey());
 			} else {
-				stores.add(entry.getKey());				
+				stores.add(entry.getKey());
 			}
 			map.put(entry.getValue().getEmployee(), stores);
 		}
@@ -99,11 +104,69 @@ public class RouteService {
 		List<EmployeeStoreDTO> lista = new ArrayList<>();
 		for (Entry<Employee, List<Store>> entry : map.entrySet()) {
 			Collections.sort(entry.getValue());
-			EmployeeStoreDTO employeeStoreDTO = new EmployeeStoreDTO();
-			employeeStoreDTO.setEmployee(entry.getKey());
-			employeeStoreDTO.setStores(entry.getValue());
-			lista.add(employeeStoreDTO);
+			lista.add(new EmployeeStoreDTO(entry.getKey(), entry.getValue()));
 		}
+
+		return lista;
+	}
+
+	public List<StoreEmployeeDTO> routesDistributed() {
+		Set<Store> stores = storeService.storesSet();
+		List<EmployeeByStoreDistanceDTO> employees = employeeService.employeesSet().stream()
+				.map(employee -> new EmployeeByStoreDistanceDTO(employee)).collect(Collectors.toList());
+
+		List<StoreEmployeeDTO> storeEmployeeDTO = new ArrayList<StoreEmployeeDTO>();
+		
+		logger.info("Cria estrutura para guardar quantidade de lojas visitadas.");
+		logger.info("Ignora representante quando distância for superior a 2km da loja.");
+		logger.info("Ordena representantes por quem possui menor número de lojas para atender.");
+
+		for (Store store : stores) {
+			List<EmployeeByStoreDistanceDTO> employeesDistance = new ArrayList<EmployeeByStoreDistanceDTO>();
+			for (EmployeeByStoreDistanceDTO employee : employees) {
+				double distance = RouteUtils.distance(store.getLatitude(), store.getLongitude(), employee.getLatitude(), employee.getLongitude());
+				if (distance > RouteUtils.MAX_DISTANCE_CONSIDERED) {
+					continue;
+				}
+				employee.setDistance(distance);
+				employeesDistance.add(employee);
+			}
+
+			// No employee close
+			if (employeesDistance.size() == 0) {
+				logger.info("Nenhum representante próximo à loja: {}!", store.getName());
+				continue;
+			}
+
+			Collections.sort(employeesDistance);
+			Collections.sort(employeesDistance, (a, b) -> a.getAttendingNumbers() - b.getAttendingNumbers());
+			EmployeeByStoreDistanceDTO employee = employeesDistance.get(0);
+			employee.setAttendingNumbers(employee.getAttendingNumbers() + 1);
+			storeEmployeeDTO.add(new StoreEmployeeDTO(store, employee));
+		}
+
+		return storeEmployeeDTO;
+	}
+
+	public List<EmployeeStoreDTO> routesDistributedGroupedByEmployee() {
+		List<StoreEmployeeDTO> routesDistributed = routesDistributed();
+
+		Map<Employee, List<Store>> map = new TreeMap<Employee, List<Store>>();
+		for (StoreEmployeeDTO storeEmployeeDTO : routesDistributed) {
+			if (map.containsKey(storeEmployeeDTO.getEmployee())) {
+				map.get(storeEmployeeDTO.getEmployee()).add(storeEmployeeDTO.getStore());
+			} else {
+				map.put(storeEmployeeDTO.getEmployee(), new ArrayList<Store>(Arrays.asList(storeEmployeeDTO.getStore())));
+			}
+		}
+
+		List<EmployeeStoreDTO> lista = new ArrayList<>();
+		for (Entry<Employee, List<Store>> entry : map.entrySet()) {
+			Collections.sort(entry.getValue());
+			lista.add(new EmployeeStoreDTO(entry.getKey(), entry.getValue()));
+		}
+
+		logger.info("Agrupa por representante as lojas para visitação.");
 
 		return lista;
 	}
