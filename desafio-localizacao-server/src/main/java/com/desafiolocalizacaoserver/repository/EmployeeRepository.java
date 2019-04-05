@@ -6,4 +6,6 @@ import com.desafiolocalizacaoserver.model.Employee;
 
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 
+	Employee findByName(String name);
+
 }
