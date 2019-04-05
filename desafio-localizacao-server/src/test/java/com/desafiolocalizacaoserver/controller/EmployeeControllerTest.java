@@ -2,6 +2,8 @@ package com.desafiolocalizacaoserver.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +44,14 @@ public class EmployeeControllerTest {
 
 		Mockito.when(employeeService.findAll()).thenReturn(lista);
 
-		List<Employee> employee = employeeController.findAll();
+		List<Employee> employees = employeeController.findAll();
 
 		Mockito.verify(employeeService, Mockito.times(1)).findAll();
-		assertEquals(1, employee.size());
+		assertSame(e, employees.get(0));
+		assertEquals(1, employees.size());
+		assertEquals(e.getName(), employees.get(0).getName());
+		assertTrue(e.getLatitude() == employees.get(0).getLatitude());
+		assertTrue(e.getLongitude() == employees.get(0).getLongitude());
 	}
 
 	@Test
@@ -54,10 +60,10 @@ public class EmployeeControllerTest {
 
 		Mockito.when(employeeService.findAll()).thenReturn(lista);
 
-		List<Employee> employee = employeeController.findAll();
+		List<Employee> employees = employeeController.findAll();
 
 		Mockito.verify(employeeService, Mockito.times(1)).findAll();
-		assertNotEquals(1, employee.size());
+		assertNotEquals(1, employees.size());
 	}
 
 	@Test

@@ -15,13 +15,13 @@ import com.desafiolocalizaoserver.enums.RoutesSort;
 
 @RestController
 @RequestMapping(value = "routes")
-public class RoutesController {
+public class RouteController {
 
 	@Autowired
 	private RouteService routeService;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<EmployeeStoreDTO> routeSort(@RequestParam(value = "sort", defaultValue = "PROXIMITY") RoutesSort sort) {
+	public List<EmployeeStoreDTO> routesBy(@RequestParam(value = "sort", defaultValue = "PROXIMITY") RoutesSort sort) {
 		return routeService.routesBy(sort);
 	}
 
