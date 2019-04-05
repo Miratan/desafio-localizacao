@@ -3,9 +3,7 @@ package com.desafiolocalizacaoserver.integration;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,8 +26,7 @@ public class EmployeeRepositoryIntegrationTest {
 	private EmployeeRepository employeeRepository;
 
 	@Test
-	public void getAll() {
-		// given
+	public void findAll() {
 		List<Employee> data = new ArrayList<Employee>();
 		for (int i = 0; i < 10; i++) {
 			Employee e = generateEmployee();
@@ -38,18 +35,13 @@ public class EmployeeRepositoryIntegrationTest {
 		}
 		entityManager.flush();
 
-		// when
-		Iterable<Employee> employees = employeeRepository.findAll();
-		Set<Employee> employeesSet = new HashSet<>();
-		employees.forEach(employeesSet::add);
+		List<Employee> employees = employeeRepository.findAll();
 
-		// then
-		assertEquals(10, employeesSet.size());
+		assertEquals(10, employees.size());
 	}
 
 	@Test
 	public void findById() {
-		// given
 		Employee e = generateEmployee();
 		e.setName("Miratan Lehmkuhl");
 		entityManager.persist(e);
@@ -59,10 +51,8 @@ public class EmployeeRepositoryIntegrationTest {
 		}
 		entityManager.flush();
 
-		// when
 		Employee employee = employeeRepository.findByName("Miratan Lehmkuhl");
 
-		// then
 		assertEquals("Miratan Lehmkuhl", employee.getName());
 	}
 

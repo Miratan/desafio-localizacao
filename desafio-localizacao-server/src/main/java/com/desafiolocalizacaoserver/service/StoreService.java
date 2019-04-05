@@ -1,5 +1,6 @@
 package com.desafiolocalizacaoserver.service;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,15 +26,14 @@ public class StoreService {
 		storeRepository.saveAll(entities);
 	}
 
-	public Iterable<Store> findAll() {
-		return storeRepository.findAll();
+	public List<Store> findAll() {
+		List<Store> stores = storeRepository.findAll();
+		Collections.sort(stores);
+		return stores;
 	}
 
 	public Set<Store> storesSet() {
-		Iterable<Store> stores = findAll();
-		Set<Store> storesSet = new HashSet<>();
-		stores.forEach(storesSet::add);
-		return storesSet;
+		return new HashSet<>(findAll());
 	}
 
 }
