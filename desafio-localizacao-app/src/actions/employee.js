@@ -50,7 +50,7 @@ export const mapErro = (erro) => ({
 
 export const mapData = (payload) => {
     return dispatch => {
-        return axios.get(`employees/${payload.id}/stores/${payload.sort}`)
+        return axios.get(`employees/${payload.id}/stores?sort=${payload.sort}`)
                     .then(res => {
                         dispatch(mapSuccess(res.data));
                         return res.data;

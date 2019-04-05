@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.desafiolocalizacaoserver.model.Employee;
@@ -32,9 +32,9 @@ public class EmployeeController {
         return employeeService.findAll();
     }
 
-	@RequestMapping(path = "/{id}/stores/{sort}", method = RequestMethod.GET)
+	@GetMapping(path = "/{id}/stores", produces = MediaType.APPLICATION_JSON_VALUE)
 	public EmployeeStoreDTO findStoresByEmployeeId(@PathVariable(value = "id") Long employeeId,
-			@PathVariable(value = "sort", required = true) RoutesSort sort) throws Exception {
+			@RequestParam(value = "sort", defaultValue = "PROXIMITY") RoutesSort sort) throws Exception {
 		logger.info("Chamada para buscar latitude/longitude do representante e lojas.");
 		return employeeService.findStoresByEmployeeId(employeeId, sort);
 	}
