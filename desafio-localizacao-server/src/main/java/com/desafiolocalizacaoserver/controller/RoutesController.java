@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import com.desafiolocalizacaoserver.model.Store;
 import com.desafiolocalizacaoserver.model.dto.EmployeeStoreDTO;
 import com.desafiolocalizacaoserver.model.dto.StoreEmployeeDTO;
 import com.desafiolocalizacaoserver.service.RouteService;
+import com.desafiolocalizaoserver.enums.RoutesSort;
 
 @RestController
 @RequestMapping(value = "routes", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,6 +49,11 @@ public class RoutesController {
     @RequestMapping(path = "/distributed-grouped-by-employee", method = RequestMethod.GET)
     public List<EmployeeStoreDTO> routesDistributedGroupedByEmployee() {
     	return routeService.routesDistributedGroupedByEmployee();
+    }
+
+    @RequestMapping(path = "/{sort}", method = RequestMethod.GET)
+    public List<EmployeeStoreDTO> routeSort(@PathVariable(value = "sort", required = true) RoutesSort sort) {
+    	return routeService.routesBy(sort);
     }
 
 }

@@ -23,7 +23,7 @@ export const listErro = (erro) => ({
 export const listData = (payload) => {
     return dispatch => {
         dispatch(list());
-        return axios.get(`routes/bigger-proximity-grouped-by-employee`)
+        return axios.get(`routes/${payload}`)
                     .then(res => {
                         dispatch(listSuccess(res.data));
                         return res.data;

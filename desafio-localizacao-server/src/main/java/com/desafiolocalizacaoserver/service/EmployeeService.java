@@ -1,5 +1,6 @@
 package com.desafiolocalizacaoserver.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.desafiolocalizacaoserver.model.Employee;
 import com.desafiolocalizacaoserver.model.dto.EmployeeStoreDTO;
 import com.desafiolocalizacaoserver.repository.EmployeeRepository;
+import com.desafiolocalizaoserver.enums.RoutesSort;
 
 @Service
 public class EmployeeService {
@@ -40,10 +42,22 @@ public class EmployeeService {
 		return employeesSet;
 	}
 
-	public EmployeeStoreDTO findStoresByEmployeeId(Long employeeId) throws Exception {
-		List<EmployeeStoreDTO> routesByProximity = routeService.routesByBiggerProximityGroupedByEmployee();
+	public EmployeeStoreDTO findStoresByEmployeeId(Long employeeId, RoutesSort sort) throws Exception {
+		List<EmployeeStoreDTO> lista = new ArrayList<EmployeeStoreDTO>();
 
-		for (EmployeeStoreDTO employeeStoreDTO : routesByProximity) {
+		switch (sort) {
+		case PROXIMITY:
+			lista = routeService.routesByBiggerProximityGroupedByEmployee();
+			break;
+		case DIVIDED:
+			lista = routeService.routesDistributedGroupedByEmployee();
+			break;
+		default:
+			lista = routeService.routesByBiggerProximityGroupedByEmployee();
+			break;
+		}
+
+		for (EmployeeStoreDTO employeeStoreDTO : lista) {
 			if (employeeStoreDTO.getEmployee().getId() == employeeId) {
 				return employeeStoreDTO;
 			}

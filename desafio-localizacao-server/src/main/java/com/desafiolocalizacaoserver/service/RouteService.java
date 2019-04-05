@@ -3,6 +3,7 @@ package com.desafiolocalizacaoserver.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,7 @@ import com.desafiolocalizacaoserver.model.dto.EmployeeByStoreDistanceDTO;
 import com.desafiolocalizacaoserver.model.dto.EmployeeStoreDTO;
 import com.desafiolocalizacaoserver.model.dto.StoreEmployeeDTO;
 import com.desafiolocalizacaoserver.utils.RouteUtils;
+import com.desafiolocalizaoserver.enums.RoutesSort;
 
 @Service
 public class RouteService {
@@ -112,6 +114,7 @@ public class RouteService {
 
 	public List<StoreEmployeeDTO> routesDistributed() {
 		Set<Store> stores = storeService.storesSet();
+		List<Store> storesList = new ArrayList<Store>(stores);
 		List<EmployeeByStoreDistanceDTO> employees = employeeService.employeesSet().stream()
 				.map(employee -> new EmployeeByStoreDistanceDTO(employee)).collect(Collectors.toList());
 
@@ -119,9 +122,11 @@ public class RouteService {
 		
 		logger.info("Cria estrutura para guardar quantidade de lojas visitadas.");
 		logger.info("Ignora representante quando distância for superior a 2km da loja.");
-		logger.info("Ordena representantes por quem possui menor número de lojas para atender.");
+		logger.info("Ordena representantes por quem está mais perto e possui menor número de lojas para atender.");
 
-		for (Store store : stores) {
+		Collections.sort(storesList);
+
+		for (Store store : storesList) {
 			List<EmployeeByStoreDistanceDTO> employeesDistance = new ArrayList<EmployeeByStoreDistanceDTO>();
 			for (EmployeeByStoreDistanceDTO employee : employees) {
 				double distance = RouteUtils.distance(store.getLatitude(), store.getLongitude(), employee.getLatitude(), employee.getLongitude());
@@ -138,9 +143,8 @@ public class RouteService {
 				continue;
 			}
 
-			Collections.sort(employeesDistance);
-			Collections.sort(employeesDistance, (a, b) -> a.getAttendingNumbers() - b.getAttendingNumbers());
-			EmployeeByStoreDistanceDTO employee = employeesDistance.get(0);
+			Collections.sort(employeesDistance, Comparator.comparing(e -> e.getDistance()));
+			EmployeeByStoreDistanceDTO employee = Collections.min(employeesDistance, Comparator.comparing(e -> e.getAttendingNumbers()));
 			employee.setAttendingNumbers(employee.getAttendingNumbers() + 1);
 			storeEmployeeDTO.add(new StoreEmployeeDTO(store, employee));
 		}
@@ -169,6 +173,24 @@ public class RouteService {
 		logger.info("Agrupa por representante as lojas para visitação.");
 
 		return lista;
+	}
+
+	public List<EmployeeStoreDTO> routesBy(RoutesSort sort) {
+		List<EmployeeStoreDTO> list = new ArrayList<EmployeeStoreDTO>();
+
+		switch (sort) {
+		case PROXIMITY:
+			list = routesByBiggerProximityGroupedByEmployee();
+			break;
+		case DIVIDED:
+			list = routesDistributedGroupedByEmployee();
+			break;
+		default:
+			list = routesByBiggerProximityGroupedByEmployee();
+			break;
+		}
+
+		return list;
 	}
 
 }

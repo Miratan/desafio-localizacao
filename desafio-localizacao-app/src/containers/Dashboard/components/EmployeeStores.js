@@ -22,7 +22,7 @@ class EmployeeStores extends Component {
     };
 
     render () {
-        const { classes, employee, stores } = this.props;
+        const { classes, employee, stores, group } = this.props;
 
         return (
             <Grid item xs={12} sm={6} md={4}>
@@ -39,7 +39,7 @@ class EmployeeStores extends Component {
                         </Typography>
                     </CardContent>
                     <CardActions className={classes.actions} disableActionSpacing>
-                        <Link to={`/employees/${ employee.id }/stores`}
+                        <Link to={`/employees/${ employee.id }/stores/${ group.value }`}
                             className={classnames('link-button', classes.linkButton)}>
                             <Button size="small" color="primary" variant="outlined">
                                 Ver mapa

@@ -16,7 +16,7 @@ class MapEmployeeStore extends Component {
     };
 
     componentDidMount() {
-        this.props.dispatch(mapData(this.props.match.params.id));
+        this.props.dispatch(mapData(this.props.match.params));
     }
 
     componentWillUnmount() {
@@ -60,6 +60,7 @@ class MapEmployeeStore extends Component {
                 />
                 {data.stores.map(item => (
                     <Marker onClick={this.onMarkerClick}
+                        key={item.id}
                         title={item.name}
                         name={item.name}
                         position={{lat: item.latitude, lng: item.longitude }}

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.desafiolocalizacaoserver.model.Employee;
 import com.desafiolocalizacaoserver.model.dto.EmployeeStoreDTO;
 import com.desafiolocalizacaoserver.service.EmployeeService;
+import com.desafiolocalizaoserver.enums.RoutesSort;
 
 @RestController
 @RequestMapping(value = "employees", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -29,10 +30,11 @@ public class EmployeeController {
         return ResponseEntity.ok().body(employeeService.findAll());
     }
 
-	@RequestMapping(path = "/{id}/stores", method = RequestMethod.GET)
-	public EmployeeStoreDTO findStoresByEmployeeId(@PathVariable(value = "id") Long employeeId) throws Exception {
+	@RequestMapping(path = "/{id}/stores/{sort}", method = RequestMethod.GET)
+	public EmployeeStoreDTO findStoresByEmployeeId(@PathVariable(value = "id") Long employeeId,
+			@PathVariable(value = "sort", required = true) RoutesSort sort) throws Exception {
 		logger.info("Chamada para buscar latitude/longitude do representante e lojas.");
-		return employeeService.findStoresByEmployeeId(employeeId);
+		return employeeService.findStoresByEmployeeId(employeeId, sort);
 	}
 
 }

@@ -4,10 +4,13 @@ import {
     LIST_DASHBOARD_ERROR,
 } from '../constants';
 
+import { groups } from '../containers/Dashboard/DashboardConstants';
+
 const initialState = {
     data: [],
     loading: true,
     erro: false,
+    group: groups[0],
 };
 
 export default function homeReducer(state = initialState, action) {
