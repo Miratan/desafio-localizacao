@@ -61,7 +61,6 @@ npm test
 ```
 
 - A carga inicial das informações de funcionários e lojas é realizada no momento em que a aplicação sobe.
-- O backlog não foi completo pois achei necessário a realização de testes antes de evoluir com mais funcionalidades.
 
 ## Funcionalidades
 
