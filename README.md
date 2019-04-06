@@ -4,7 +4,7 @@ Aplicação responsável por mostrar os representantes e as lojas próximas de a
 
 ## Instalar e Rodar
 
-[ ] Baixar o projeto
+[ x ] Baixar o projeto
 
 ```bash
 git clone https://github.com/Miratan/desafio-localizacao
@@ -12,19 +12,19 @@ git clone https://github.com/Miratan/desafio-localizacao
 
 ### Backend
 
-[ ] Ir para a pasta do projeto backend
+[ x ] Ir para a pasta do projeto backend
 
 ```bash
 cd desafio-localizacao-server
 ```
 
-[ ] Compilar e subir o backend
+[ x ] Compilar e subir o backend
 
 ```bash
 mvn clean -DskipTests & mvn spring-boot:run
 ```
 
-[ ] Para rodar os testes executar
+[ x ] Para rodar os testes executar
 
 ```bash
 mvn test
@@ -32,19 +32,19 @@ mvn test
 
 ### Frontend
 
-[ ] Ir para a pasta do projeto frontend
+[ x ] Ir para a pasta do projeto frontend
 
 ```bash
 cd desafio-localizacao-app
 ```
 
-[ ] Instalar dependências e rodar o frontend
+[ x ] Instalar dependências e rodar o frontend
 
 ```bash
 npm install && npm start
 ```
 
-[ ] Rodar os testes
+[ x ] Rodar os testes
 
 ```bash
 npm test
@@ -59,6 +59,9 @@ npm test
 * React;
 * Redux;
 ```
+
+- A carga inicial das informações de funcionários e lojas é realizada no momento em que a aplicação sobe.
+- O backlog não foi completo pois achei necessário a realização de testes antes de evoluir com mais funcionalidades.
 
 ## Funcionalidades
 
