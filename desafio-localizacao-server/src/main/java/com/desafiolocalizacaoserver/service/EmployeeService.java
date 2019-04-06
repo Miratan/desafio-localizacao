@@ -9,10 +9,13 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.desafiolocalizacaoserver.model.Employee;
 import com.desafiolocalizacaoserver.model.dto.EmployeeStoreDTO;
+import com.desafiolocalizacaoserver.model.dto.EmployeesDTO;
 import com.desafiolocalizacaoserver.repository.EmployeeRepository;
 import com.desafiolocalizaoserver.enums.RoutesSort;
 
@@ -64,6 +67,11 @@ public class EmployeeService {
 		}
 
 		throw new Exception("Representante não encontrado.");
+	}
+
+	public EmployeesDTO find(Pageable pageable) {
+		Page<Employee> employees = employeeRepository.findAll(pageable);
+		return new EmployeesDTO(employees.getContent(), employees.getTotalElements(), employees.getNumber());
 	}
 
 }

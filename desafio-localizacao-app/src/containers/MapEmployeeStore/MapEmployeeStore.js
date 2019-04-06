@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import { withStyles } from '@material-ui/core/styles';
 
 import { GOOGLE_API } from '../../constants';
 import { map, mapData } from '../../actions/employee';
@@ -42,14 +43,14 @@ class MapEmployeeStore extends Component {
 
     render() {
 
-        const { loading, erro, data } = this.props;
+        const { loading, erro, data, classes } = this.props;
 
         if (loading) { return <Loading /> }
 
         if (erro) { return <Error /> }
 
         return (
-          <div>
+          <div className={classes.root}>
             <Map
               google={this.props.google}
               zoom={13}
@@ -80,6 +81,14 @@ class MapEmployeeStore extends Component {
     }
 }
 
+const styles = () => ({
+    root: {
+        position: 'absolute',
+        width: '100%',
+        height: '90%',
+    },
+});
+
 const mapStateToProps = state => {
     return {
         data: state.employee.dataMap,
@@ -88,6 +97,7 @@ const mapStateToProps = state => {
     }
 }
 
+MapEmployeeStore = withStyles(styles)(MapEmployeeStore)
 MapEmployeeStore = GoogleApiWrapper({ apiKey: GOOGLE_API })(MapEmployeeStore)
 MapEmployeeStore = connect(mapStateToProps)(MapEmployeeStore)
 export default MapEmployeeStore;

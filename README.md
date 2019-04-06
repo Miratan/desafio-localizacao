@@ -73,14 +73,14 @@ npm test
 * Representante com menor quantidade de lojas é selecionado quando loja pode visitada por mais de um.
 * Adicionar filtro para modo de ordenação (Pŕoximo / Distribuído);
 * Mudar comparação para verificar por menor número de lojas visitadas e depois por proximidade. Atualmente verifica o menor número de lojas e pega por ordem alfabética.
+* Serviço para listar lojas paginadas;
+* Serviço para listar representantes paginados;
 ```
 
 ## Backlog
 
 ```
 * Permitir alteração da configuração de proximidade (não deixar fixo 2km);
-* Serviço para listar representantes paginados;
-* Serviço para listar lojas paginadas;
 * Adição, edição e exclusão de representantes;
 * Adição, edição e exclusão de lojas;
 * Criação de login com perfis diferenciados para o dono da empresa e representantes;

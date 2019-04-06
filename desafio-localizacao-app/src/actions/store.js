@@ -20,9 +20,9 @@ export const listErro = (erro) => ({
     payload: { erro },
 });
 
-export const listData = () => {
+export const listData = (payload) => {
     return dispatch => {
-        return axios.get(`stores`)
+        return axios.get(`stores/page?page=${payload}`)
                     .then(res => {
                         dispatch(listSuccess(res.data));
                         return res.data;

@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.desafiolocalizacaoserver.model.Employee;
@@ -20,9 +19,6 @@ import com.desafiolocalizacaoserver.repository.EmployeeRepository;
 public class EmployeeRepositoryIntegrationTest {
 
 	@Autowired
-	private TestEntityManager entityManager;
-
-	@Autowired
 	private EmployeeRepository employeeRepository;
 
 	@Test
@@ -31,9 +27,9 @@ public class EmployeeRepositoryIntegrationTest {
 		for (int i = 0; i < 10; i++) {
 			Employee e = generateEmployee();
 			data.add(e);
-			entityManager.persist(e);
+			employeeRepository.save(e);
 		}
-		entityManager.flush();
+		employeeRepository.flush();
 
 		List<Employee> employees = employeeRepository.findAll();
 
@@ -44,12 +40,12 @@ public class EmployeeRepositoryIntegrationTest {
 	public void findById() {
 		Employee e = generateEmployee();
 		e.setName("Miratan Lehmkuhl");
-		entityManager.persist(e);
+		employeeRepository.save(e);
 		for (int i = 0; i < 10; i++) {
 			e = generateEmployee();
-			entityManager.persist(e);
+			employeeRepository.save(e);
 		}
-		entityManager.flush();
+		employeeRepository.flush();
 
 		Employee employee = employeeRepository.findByName("Miratan Lehmkuhl");
 
